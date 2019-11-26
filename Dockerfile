@@ -15,4 +15,4 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-CMD [ "node", "app.js" ]
+CMD [ "node", "app.js","--host","0.0.0.0" ]
