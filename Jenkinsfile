@@ -19,8 +19,8 @@ pipeline {
           kubectl delete deployment node-test || TRUE
           kubectl apply -f kube.yaml
           sleep 5
-          curl -v http://localhost:30080
-          kubectl delete deployment node-test || TRUE
+          curl http://localhost:30080
+         
         """
         }
       }
