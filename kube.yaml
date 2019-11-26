@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: node-test
+  name: node-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      run: node-test
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: node-test
+    spec:
+      containers:
+      - image: mandiwal/nicknode:latest
+        name: node-test
+        imagePullPolicy: Never
+        resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    run: node-test
+  name: node-test
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 3000
+    nodePort: 30080
+  selector:
+    run: node-test
+  type: NodePort
+status:
+  loadBalancer: {}
