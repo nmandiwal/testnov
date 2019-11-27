@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:alpine3.10
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-#COPY package*.json ./
+COPY package*.json ./
 
 RUN npm install
 # If you are building your code for production
@@ -14,6 +14,6 @@ RUN npm install
 Expose 3000
 
 # Bundle app source
-COPY . .
+COPY ./app.js .
 
-CMD [ "node", "app.js","--host","0.0.0.0" ]
+CMD [ "npm", "start" ]
