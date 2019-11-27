@@ -1,7 +1,7 @@
 pipeline {
   environment {
-    registry = "mandiwal/testnov"
-    registryCredential = 'dockerhub_id'
+    registry = "mandiwal/nicknode"
+    //registryCredential = 'dockerhub_id'
     dockerImage = ''
   }
   agent any
@@ -14,12 +14,13 @@ pipeline {
     stage('Building image') {
       steps{
         script {
+          sh "docker rmi $registry:$BUILD_NUMBER"
           dockerImage = docker.build registry + ":$BUILD_NUMBER"
           sh """
-          kubectl delete deployment node-test || TRUE
-          kubectl apply -f kube.yaml
-          sleep 5
-          curl http://localhost:30080
+            sed -i 's/nicknodeTAG/$BUILD_NUMBER/g' kube.yaml
+            kubectl apply -f kube.yaml
+            sleep 5
+            curl http://localhost:30080
          
         """
         }

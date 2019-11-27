@@ -19,7 +19,7 @@ spec:
         run: node-test
     spec:
       containers:
-      - image: mandiwal/nicknode:latest
+      - image: mandiwal/nicknode:nicknodeTAG
         name: node-test
         imagePullPolicy: Never
         resources: {}
