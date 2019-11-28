@@ -3,6 +3,7 @@ pipeline {
     registry = "mandiwal/nicknode"
     //registryCredential = 'dockerhub_id'
     dockerImage = ''
+    kubeIP = '192.168.64.3'
   }
   agent any
   stages {
@@ -19,7 +20,7 @@ pipeline {
             sed -i '' 's/nicknodeTAG/$BUILD_NUMBER/g' kube.yaml
             kubectl apply -f kube.yaml
             sleep 5
-            curl http://localhost:30080
+            curl http://{$kubeIP}
           """
         }
       }

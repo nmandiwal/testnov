@@ -1,5 +1,5 @@
 ---
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   creationTimestamp: null
@@ -38,9 +38,26 @@ spec:
   - port: 3000
     protocol: TCP
     targetPort: 3000
-    nodePort: 30080
+    #nodePort: 30080
   selector:
     run: node-test
   type: NodePort
 status:
   loadBalancer: {}
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+        - path: /
+          backend:
+            serviceName: node-test
+            servicePort: 3000
+          
