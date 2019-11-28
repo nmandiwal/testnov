@@ -14,13 +14,17 @@ pipeline {
     }
     stage('Building image') {
       steps{
+        
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            sh ''
+          //dockerImage = docker.build registry + ":$BUILD_NUMBER"
           sh """
+            eval \$(minikube docker-env)
+            docker build -t $registry:$BUILD_NUMBER .
             sed -i '' 's/nicknodeTAG/$BUILD_NUMBER/g' kube.yaml
+            kubectl config use-context minikube
             kubectl apply -f kube.yaml
-            sleep 5
-            curl http://{$kubeIP}
+            curl -m 5 curl `minikube ip`
           """
         }
       }
